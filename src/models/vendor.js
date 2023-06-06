@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 import { preInitClean } from '../utils/mongoose.js';
 
 const schema = new mongoose.Schema(
@@ -16,5 +17,21 @@ const schema = new mongoose.Schema(
 );
 
 schema.pre('init', preInitClean);
+
+schema.pre('save', function preSave(next) {
+  const vendor = this;
+  if (!vendor.isModified('password')) {
+    next();
+  } else {
+    bcrypt.hash(vendor.password, 12, (err, hash) => {
+      if (err) {
+        next(err);
+      } else {
+        vendor.password = hash;
+        next();
+      }
+    });
+  }
+});
 
 export default mongoose.model('Vendor', schema);
