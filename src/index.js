@@ -8,8 +8,9 @@ const app = express();
 
 async function connectDB() {
   try {
+    const { DB_USERNAME: username, DB_PASSWORD: password } = process.env;
     await mongoose.connect(
-      `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.z0byrzc.mongodb.net/`,
+      `mongodb+srv://${username}:${password}@cluster0.z0byrzc.mongodb.net/`,
     );
   } catch (e) {
     //
