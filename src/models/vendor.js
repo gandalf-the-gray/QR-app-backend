@@ -4,7 +4,6 @@ import { preInitClean } from '../utils/mongoose.js';
 
 const schema = new mongoose.Schema(
   {
-    username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     phoneNo: { type: String, required: true, unique: true },
     name: {
