@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "nodemon src/index.js",
     "lint": "eslint .",
-		"lint:fix": "eslint --fix .",
+    "lint:fix": "eslint --fix .",
     "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
@@ -20,6 +21,7 @@
     "eslint-plugin-import": "^2.27.5",
     "husky": "^8.0.0",
     "lint-staged": "^13.2.2",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.8"
   },
   "lint-staged": {
