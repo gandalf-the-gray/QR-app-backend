@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { preInitClean } from '../utils/mongoose.js';
+import { addCommonUtils } from '../utils/mongoose.js';
 
 const schema = new mongoose.Schema(
   {
@@ -10,7 +10,7 @@ const schema = new mongoose.Schema(
         name: { type: String, required: true },
         code: { type: Number, required: true },
       },
-      number: { type: Number, required: true },
+      number: { type: Number, required: true, unique: true },
     },
     name: {
       first: { type: String, required: true },
@@ -21,8 +21,9 @@ const schema = new mongoose.Schema(
   { timestamps: true, minimize: false },
 );
 
-schema.pre('init', preInitClean);
+addCommonUtils(schema);
 
+// Hash password before saving
 schema.pre('save', function preSave(next) {
   const vendor = this;
   if (!vendor.isModified('password')) {
