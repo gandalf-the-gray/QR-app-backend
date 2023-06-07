@@ -1,11 +1,17 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { preInitClean } from '../utils/mongoose.js';
+import { addCommonUtils } from '../utils/mongoose.js';
 
 const schema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
-    phoneNo: { type: String, required: true, unique: true },
+    mobile: {
+      country: {
+        name: { type: String, required: true },
+        code: { type: Number, required: true },
+      },
+      number: { type: Number, required: true, unique: true },
+    },
     name: {
       first: { type: String, required: true },
       last: { type: String },
@@ -15,8 +21,9 @@ const schema = new mongoose.Schema(
   { timestamps: true, minimize: false },
 );
 
-schema.pre('init', preInitClean);
+addCommonUtils(schema);
 
+// Hash password before saving
 schema.pre('save', function preSave(next) {
   const vendor = this;
   if (!vendor.isModified('password')) {
