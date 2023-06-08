@@ -1,10 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import vendorRouter from './routes/vendor/index.js';
 import 'dotenv/config';
 
 const PORT = process.env.PORT || 9000;
-
 const app = express();
+
+app.use(express.json());
+
+app.use('/vendors', vendorRouter);
 
 async function connectDB() {
   try {
