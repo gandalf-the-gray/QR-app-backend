@@ -1,8 +1,13 @@
-import { StringField, IntegerField } from 'anubis-inspect';
-import { LoginValidator } from './login.js';
+import { StringField, IntegerField, BaseValidator } from 'anubis-inspect';
 import Vendor from '../../models/vendor.js';
 
 const rules = {
+  email: StringField.email('email')
+    .required()
+    .test(async (email) => {
+      const vendor = await Vendor.exists({ email });
+      return vendor === null;
+    }, 'this email is already taken'),
   name: {
     first: new StringField('first name').required(),
     last: new StringField('last name'),
@@ -23,9 +28,10 @@ const rules = {
         return !vendor;
       }, 'this mobile number is already taken'),
   },
+  password: new StringField('password').required().min(8),
 };
 
-class SignUpValidator extends LoginValidator {
+class SignUpValidator extends BaseValidator {
   constructor() {
     super();
     super.init(rules);
