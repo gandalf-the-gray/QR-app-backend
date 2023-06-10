@@ -5,9 +5,9 @@ const rules = {
   email: StringField.email('email')
     .required()
     .test(async (email) => {
-      const vendor = await Vendor.findOne({ email });
-      return !vendor;
-    }, 'this email is already taken'),
+      const vendor = await Vendor.exists({ email });
+      return vendor !== null;
+    }, "a user with this email doesn't exist"),
   password: new StringField('password').required().min(8),
 };
 
