@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import { getHash } from '../libs/bcrypt.js';
 import { addCommonUtils } from '../utils/mongoose.js';
 
 const schema = new mongoose.Schema(
@@ -24,19 +24,18 @@ const schema = new mongoose.Schema(
 addCommonUtils(schema);
 
 // Hash password before saving
-schema.pre('save', function preSave(next) {
+schema.pre('save', async function preSave(next) {
   const vendor = this;
   if (!vendor.isModified('password')) {
     next();
   } else {
-    bcrypt.hash(vendor.password, 12, (err, hash) => {
-      if (err) {
-        next(err);
-      } else {
-        vendor.password = hash;
-        next();
-      }
-    });
+    const hash = await getHash(vendor.password);
+    if (hash) {
+      vendor.password = hash;
+      next();
+    } else {
+      next(new Error());
+    }
   }
 });
 
