@@ -14,7 +14,7 @@ async function connectDB() {
   try {
     const { DB_USERNAME: username, DB_PASSWORD: password } = env;
     await mongoose.connect(
-      `mongodb+srv://${username}:${password}@cluster0.ufsbz.mongodb.net/`,
+      `mongodb+srv://${username}:${password}@cluster0.qpktsds.mongodb.net/`,
     );
   } catch (e) {
     //
