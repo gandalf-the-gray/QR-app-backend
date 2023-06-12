@@ -1,11 +1,11 @@
 import JWT from 'jsonwebtoken';
-import 'dotenv/config';
+import env from '../utils/environments.js';
 
 const { JWT_SECRET_KEY } = process.env;
 
 export async function getToken(data) {
   return new Promise((resolve, reject) => {
-    JWT.sign(data, JWT_SECRET_KEY, (err, token) => {
+    JWT.sign(data, env.JWT_SECRET_KEY, (err, token) => {
       if (err) {
         reject(err);
       } else {
