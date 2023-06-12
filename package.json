@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "anubis-inspect": "^1.4.0",
+    "anubis-inspect": "^1.5.3",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
