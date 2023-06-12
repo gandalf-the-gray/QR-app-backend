@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import env from './utils/environments.js';
 import vendorRouter from './routes/vendor/index.js';
-import 'dotenv/config';
 
 const PORT = process.env.PORT || 9000;
 const app = express();
@@ -12,7 +12,7 @@ app.use('/vendors', vendorRouter);
 
 async function connectDB() {
   try {
-    const { DB_USERNAME: username, DB_PASSWORD: password } = process.env;
+    const { DB_USERNAME: username, DB_PASSWORD: password } = env;
     await mongoose.connect(
       `mongodb+srv://${username}:${password}@cluster0.ufsbz.mongodb.net/`,
     );
