@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { getHash } from '../libs/bcrypt.js';
-import { addCommonUtils } from '../utils/mongoose.js';
 
 const schema = new mongoose.Schema(
   {
@@ -20,8 +19,6 @@ const schema = new mongoose.Schema(
   },
   { timestamps: true, minimize: false },
 );
-
-addCommonUtils(schema);
 
 // Hash password before saving
 schema.pre('save', async function preSave(next) {
