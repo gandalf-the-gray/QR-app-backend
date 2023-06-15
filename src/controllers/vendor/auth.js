@@ -1,8 +1,9 @@
-import Vendor from '../../models/vendor.js';
-import signUpBodyValidator from '../../body-validators/vendor/sign-up.js';
+import Store from '../../models/vendor/store.js';
+import Vendor from '../../models/vendor/vendor.js';
 import loginBodyValidator from '../../body-validators/vendor/login.js';
-import { cleanDoc } from '../../utils/mongoose.js';
+import signUpBodyValidator from '../../body-validators/vendor/sign-up.js';
 import { getToken } from '../../libs/JWT.js';
+import { cleanDoc } from '../../utils/mongoose.js';
 
 export async function signUp(req, res) {
   try {
@@ -11,6 +12,8 @@ export async function signUp(req, res) {
       res.status(422).json(errors);
       return;
     }
+    const store = await Store.create(req.body.store);
+    req.body.store = store._id;
     const vendor = await Vendor.create(req.body);
     res.status(200).json(cleanDoc(vendor));
   } catch (e) {

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { getHash } from '../libs/bcrypt.js';
+import { getHash } from '../../libs/bcrypt.js';
 
 const schema = new mongoose.Schema(
   {
@@ -13,9 +13,10 @@ const schema = new mongoose.Schema(
     },
     name: {
       first: { type: String, required: true },
-      last: { type: String },
+      last: { type: String, default: null },
     },
     password: { type: String, required: true },
+    store: { type: mongoose.Types.ObjectId, ref: 'Store' },
   },
   { timestamps: true, minimize: false },
 );

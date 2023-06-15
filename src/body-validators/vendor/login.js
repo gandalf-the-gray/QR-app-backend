@@ -1,5 +1,5 @@
 import { BaseValidator, StringField } from 'anubis-inspect';
-import Vendor from '../../models/vendor.js';
+import Vendor from '../../models/vendor/vendor.js';
 import { verifyHash } from '../../libs/bcrypt.js';
 
 const rules = {

@@ -1,5 +1,5 @@
 import { StringField, IntegerField, BaseValidator } from 'anubis-inspect';
-import Vendor from '../../models/vendor.js';
+import Vendor from '../../models/vendor/vendor.js';
 
 const rules = {
   email: StringField.email('email')
@@ -27,6 +27,10 @@ const rules = {
         const vendor = await Vendor.findOne({ 'mobile.number': number });
         return !vendor;
       }, 'this mobile number is already taken'),
+  },
+  store: {
+    name: new StringField('store name').required().max(100),
+    description: new StringField('store description'),
   },
   password: new StringField('password').required().min(8),
 };
