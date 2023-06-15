@@ -1,31 +1,27 @@
-import { deleteObjectKey } from './object.js';
+import { getObjectField } from './object.js';
 
-export function cleanDoc(queryResult, paths = []) {
+export function _cleanDoc(queryResult) {
   const doc = queryResult._doc;
   doc.id = doc._id;
   delete doc._id;
   delete doc.__v;
   delete doc.createdAt;
   delete doc.updatedAt;
-  for (let i = 0; i < paths.length; i += 1) {
-    const path = paths[i];
-    deleteObjectKey(doc, path);
+}
+
+export function cleanDoc(queryResult, paths = []) {
+  _cleanDoc(queryResult, paths);
+  for (let pathIndex = 0; pathIndex < paths.length; pathIndex += 1) {
+    let path = paths[pathIndex];
+    path = `_doc.${path.split('.').join('._doc.')}`;
+    const doc = getObjectField(queryResult, path);
+    if (Array.isArray(doc)) {
+      for (let docIndex = 0; docIndex < doc.length; docIndex += 1) {
+        _cleanDoc(doc[docIndex]);
+      }
+    } else {
+      _cleanDoc(doc);
+    }
   }
-}
-
-export function getCleanDoc(queryResult, paths = []) {
-  cleanDoc(queryResult, paths);
-  return queryResult._doc;
-}
-
-export function addCommonUtils(schema) {
-  // Add 'id' getter that gets the stringified document id
-  schema.virtual('id').get(function getId() {
-    return this._id.toHexString();
-  });
-
-  // Clean documents found by queries
-  schema.post('init', function preInit() {
-    cleanDoc(this);
-  });
+  return queryResult;
 }

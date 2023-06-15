@@ -1,7 +1,7 @@
 import Vendor from '../../models/vendor.js';
-import { getCleanDoc } from '../../utils/mongoose.js';
 import signUpBodyValidator from '../../body-validators/vendor/sign-up.js';
 import loginBodyValidator from '../../body-validators/vendor/login.js';
+import { cleanDoc } from '../../utils/mongoose.js';
 import { getToken } from '../../libs/JWT.js';
 
 export async function signUp(req, res) {
@@ -12,7 +12,7 @@ export async function signUp(req, res) {
       return;
     }
     const vendor = await Vendor.create(req.body);
-    res.status(200).json(getCleanDoc(vendor, ['password']));
+    res.status(200).json(cleanDoc(vendor));
   } catch (e) {
     res.status(500).json(e);
   }
